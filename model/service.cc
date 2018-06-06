@@ -5,7 +5,6 @@
 #include "./destroyer.h"
 
 Service::Service() : m_Turn(0), m_Allive(0), m_recentDestoy(nullptr){
-  m_defense = new Defenser();
 }
 Service::~Service() {
   this->CleanUp();
@@ -18,7 +17,6 @@ void Service::Init() {
   m_shipes.push_back(new Cruiser());
   m_shipes.push_back(new Destroyer());
   m_shipes.push_back(new Destroyer());
-  m_defense->SetShipPosition(m_shipes);
   m_Allive = m_shipes.size();
   m_Turn = 1;
 }
@@ -65,6 +63,7 @@ AttackResult Service::Attack(const Position& pos) {
 bool Service::IsFinish() {
   return (m_Allive == 0 ? true : false);
 }
+
 PShip Service::GetDestroyedShip(){
   return m_recentDestoy;
 }

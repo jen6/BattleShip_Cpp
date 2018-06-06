@@ -3,6 +3,11 @@
 #include "../view/battleshipMap.h"
 #include "../view/inputpane.h"
 #include "../view/statepane.h"
+#include "./defenser.h"
+#include "./Attacker.h"
+#include "./RandAttacker.h"
+#include "./RandTraceAttacker.h"
+
 #include <ncurses.h>
 #include <unistd.h>
 
@@ -37,7 +42,9 @@ void BattleShipApp::Init() {
   m_attackMap = new BattleShipMap(4, 15, "attack");
   m_state = new StatePane(30, 3, 30, 8);
   m_input = new InputPane(30, 13, 30, 6);
-
+  m_attacker = new RandomTraceAttacker();
+  //m_attacker = new RandomAttacker();
+  m_defenser = new Defenser();
 }
 
 void BattleShipApp::Render() {
@@ -50,6 +57,8 @@ void BattleShipApp::Render() {
 void BattleShipApp::Play() {
   m_service->Init();
   auto shipes = m_service->GetShipes();
+  m_defenser->SetShipPosition(shipes);
+
   for(auto ship : shipes) {
     m_defenceMap->SetShip(ship->GetType(), ship->GetPositions());
     m_state->InsertShip(ship->GetName(), static_cast<char>(ship->GetType()), ship->GetSize());
@@ -57,9 +66,12 @@ void BattleShipApp::Play() {
   Render();
   while(!m_service->IsFinish()) {
     refresh();
-    auto pos = m_input->GetInput();
+    //auto pos = m_input->GetInput();
+    auto pos = m_attacker->GetAttackPosition();
     auto result = m_service->Attack(pos);
     auto destroy = m_service->GetDestroyedShip();
+
+    m_attacker->SetResult(pos, result);
     if(destroy){
       m_input->Update(pos, result, destroy->GetName());
       int idx;
@@ -67,11 +79,14 @@ void BattleShipApp::Play() {
         if (shipes[idx] == destroy) break;
       m_state->Update(idx);
     }
-    else
+    else {
       m_input->Update(pos, result, "");
+    }
+
     m_state->SetTurn(m_service->GetTurn());
     m_attackMap->Update(pos, result);
     Render();
+    sleep(2);
   }
   m_input->GameEnd();
   Render();

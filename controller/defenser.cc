@@ -6,7 +6,7 @@
 Defenser::Defenser() {}
 Defenser::~Defenser() {}
 
-void Defenser::SetShipPosition(std::vector<PShip>& shipes) {
+void Defenser::SetShipPosition(const std::vector<PShip>& shipes) {
   char ship_map[KMAP_SIZE][KMAP_SIZE] = {{0, }, };
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   std::mt19937_64 randGen(seed);

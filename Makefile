@@ -10,11 +10,11 @@ VIEW_SRCS = $(addprefix $(VIEW_DIR)/,pane.cc statepane.cc battleshipMap.cc input
 VIEW_OBJS = ${VIEW_SRCS:cc=o}
 
 MODEL_DIR = ./model
-MODEL_SRCS = $(addprefix $(MODEL_DIR)/,util.cc ship.cc aircraft.cc battleship.cc cruiser.cc destroyer.cc defenser.cc service.cc)
+MODEL_SRCS = $(addprefix $(MODEL_DIR)/,util.cc ship.cc aircraft.cc battleship.cc cruiser.cc destroyer.cc service.cc)
 MODEL_OBJS = ${MODEL_SRCS:cc=o}
 
 CONTROL_DIR = ./controller
-CONTROL_SRCS = $(addprefix $(CONTROL_DIR)/,battleshipApp.cc)
+CONTROL_SRCS = $(addprefix $(CONTROL_DIR)/,defenser.cc Attacker.cc RandAttacker.cc RandTraceAttacker.cc  battleshipApp.cc)
 CONTROL_OBJS = ${CONTROL_SRCS:cc=o}
 
 SRCS = main.cc
@@ -25,7 +25,7 @@ PROGS := ${SRCS:.cc=}
 	all: ${PROGS}
 
 ${PROGS}: ${OBJS} ${VIEW_OBJS} ${CONTROL_OBJS} ${MODEL_OBJS}
-	${CC} ${CFLAGS} -o $@ ${VIEW_SRCS} ${CONTROL_SRCS} ${MODEL_SRCS} ${SRCS} -lncurses
+	${CC} ${CFLAGS} -g -o $@ ${VIEW_SRCS} ${CONTROL_SRCS} ${MODEL_SRCS} ${SRCS} -lncurses
 
 ${OBJS}: ${SRCS}
 	${CC} ${CFLAGS} -c ${SRCS} 
