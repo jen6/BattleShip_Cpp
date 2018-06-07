@@ -29,9 +29,13 @@ RandomTraceAttacker::RandomTraceAttacker()
           m_state = States::STATE_DOWN;
         } else if (m_AttackResult == AttackResult::HIT) {
           m_traceMode = false;
+          m_verticalSt.push(m_LastPos);
           m_state = States::STATE_UP;
         }else if(m_AttackResult == AttackResult::DESTROY) {
           m_traceMode = false;
+          //clear buf because destroy
+          std::stack<Position> buf;
+          m_verticalSt.swap(buf);
           m_state = States::STATE_RAND;
         } 
         break;
@@ -41,9 +45,13 @@ RandomTraceAttacker::RandomTraceAttacker()
           m_state = States::STATE_RIGHT;
         } else if (m_AttackResult == AttackResult::HIT) {
           m_traceMode = false;
+          m_verticalSt.push(m_LastPos);
           m_state = States::STATE_DOWN;
         }else if(m_AttackResult == AttackResult::DESTROY) {
           m_traceMode = false;
+          //clear buf because destroy
+          std::stack<Position> buf;
+          m_verticalSt.swap(buf);
           m_state = States::STATE_RAND;
         } 
         break;
@@ -56,7 +64,14 @@ RandomTraceAttacker::RandomTraceAttacker()
           m_state = States::STATE_RIGHT;
         }else if(m_AttackResult == AttackResult::DESTROY) {
           m_traceMode = false;
-          m_state = States::STATE_RAND;
+          if(!m_verticalSt.empty()) {
+            m_LastPos = m_verticalSt.top();
+            m_tracePos = m_LastPos;
+            m_verticalSt.pop();
+            m_state = States::STATE_RIGHT;
+          }else {
+            m_state = States::STATE_RAND;
+          }
         } 
         break;
       case States::STATE_LEFT:
@@ -68,7 +83,14 @@ RandomTraceAttacker::RandomTraceAttacker()
           m_state = States::STATE_LEFT;
         }else if(m_AttackResult == AttackResult::DESTROY) {
           m_traceMode = false;
-          m_state = States::STATE_RAND;
+          if(!m_verticalSt.empty()) {
+            m_LastPos = m_verticalSt.top();
+            m_tracePos = m_LastPos;
+            m_verticalSt.pop();
+            m_state = States::STATE_RIGHT;
+          }else {
+            m_state = States::STATE_RAND;
+          }
         } 
         break;
     }
@@ -77,27 +99,26 @@ RandomTraceAttacker::RandomTraceAttacker()
 Position RandomTraceAttacker::GetAttackPosition() {
   HandleState();
 
-  Position ret;
+  Position base, ret;
+  if(m_traceMode) base = m_tracePos;
+  else  base = m_LastPos;
+
   switch(m_state) {
     case States::STATE_RAND:
       ret = this->RandomAttacker::GetAttackPosition();
       m_tracePos = ret;
       break;
     case States::STATE_UP:
-      if(m_traceMode) m_LastPos = m_tracePos;
-      ret = m_LastPos + kPos_up;
+      ret = base + kPos_up;
       break;
     case States::STATE_RIGHT:
-      if(m_traceMode) m_LastPos = m_tracePos;
-      ret = m_LastPos + kPos_right;
+      ret = base + kPos_right;
       break;
     case States::STATE_DOWN:
-      if(m_traceMode) m_LastPos = m_tracePos;
-      ret = m_LastPos + kPos_down;
+      ret = base + kPos_down;
       break;
     case States::STATE_LEFT:
-      if(m_traceMode) m_LastPos = m_tracePos;
-      ret = m_LastPos + kPos_left;
+      ret = base + kPos_left;
       break;
   }
 

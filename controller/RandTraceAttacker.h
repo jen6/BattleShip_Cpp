@@ -2,12 +2,14 @@
 #include "./RandAttacker.h"
 #include "./state_def.h"
 #include <random>
+#include <stack>
 
 class RandomTraceAttacker : public RandomAttacker {
   protected:
     States m_state;
     bool m_traceMode;
     Position m_tracePos;
+    std::stack<Position> m_verticalSt;
 
     static const Position kPos_up;
     static const Position kPos_right;
