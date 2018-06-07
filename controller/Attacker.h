@@ -3,7 +3,7 @@
 
 class Attacker {
   protected:
-    char m_HitMap[KMAP_SIZE][KMAP_SIZE];
+    AttackResult  m_HitMap[KMAP_SIZE][KMAP_SIZE];
     Position m_LastPos;
     AttackResult m_AttackResult;
     

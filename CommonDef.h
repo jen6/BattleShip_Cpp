@@ -11,6 +11,7 @@ std::ostream& operator<<(std::ostream&, const Position &);
 using ShipPoses = std::vector<Position>;
 
 enum class AttackResult : char {
+  NONDETER = 0,
   HIT = 'H',
   MISS = 'M',
   DESTROY = 'D',

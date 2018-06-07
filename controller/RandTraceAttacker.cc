@@ -102,14 +102,18 @@ Position RandomTraceAttacker::GetAttackPosition() {
   }
 
   int y = ret.first, x = ret.second;
-  if(!(0 <= y && y < KMAP_SIZE) || !(0 <= x && y < KMAP_SIZE)){
+  if(!(0 <= y && y < KMAP_SIZE) || !(0 <= x && x < KMAP_SIZE)){
     //for passing this direction
     m_AttackResult = AttackResult::MISS;
     ret = GetAttackPosition();
   }
 
-  if(m_HitMap[y][x]) {
+  if(m_HitMap[y][x] == AttackResult::MISS || m_HitMap[y][x] == AttackResult::DESTROY) {
     m_AttackResult = AttackResult::MISS;
+    ret = GetAttackPosition();
+  } else if(m_HitMap[y][x] == AttackResult::HIT) {
+    m_AttackResult = AttackResult::HIT;
+    m_LastPos = ret;
     ret = GetAttackPosition();
   }
   return ret;

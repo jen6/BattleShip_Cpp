@@ -86,7 +86,7 @@ void BattleShipApp::Play() {
     m_state->SetTurn(m_service->GetTurn());
     m_attackMap->Update(pos, result);
     Render();
-    sleep(2);
+    sleep(1);
   }
   m_input->GameEnd();
   Render();

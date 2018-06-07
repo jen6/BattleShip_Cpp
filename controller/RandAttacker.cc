@@ -23,7 +23,7 @@ Position RandomAttacker::GetAttackPosition() {
   for(;;){
     pos = GenRandPosition();
     int y = pos.first, x = pos.second;
-    if(m_HitMap[y][x] == 0) break;
+    if(m_HitMap[y][x] == AttackResult::NONDETER) break;
   }
   return pos;
 }
