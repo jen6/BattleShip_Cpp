@@ -127,7 +127,7 @@ Position RandomTraceAttacker::GetAttackPosition() {
     if(!(0 <= y && y < KMAP_SIZE) || !(0 <= x && x < KMAP_SIZE)){
       //for passing this direction
       m_AttackResult = AttackResult::MISS;
-      ret = GetAttackPosition();
+      continue;
     }
 
     if(m_HitMap[y][x] == AttackResult::MISS || m_HitMap[y][x] == AttackResult::DESTROY) {
