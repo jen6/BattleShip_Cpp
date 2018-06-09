@@ -18,6 +18,7 @@ class RandomTraceAttacker : public RandomAttacker {
 
     void SetDestroy();
     void HandleState();
+    virtual Position GenRandPosition();
   public:
     RandomTraceAttacker();
     virtual ~RandomTraceAttacker();

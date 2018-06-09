@@ -110,6 +110,22 @@ RandomTraceAttacker::RandomTraceAttacker()
     }
   }
 
+Position RandomTraceAttacker::GenRandPosition() {
+  std::vector<Position> possible_points;
+  for(int y = 0; y < KMAP_SIZE; ++y) {
+    int base = y % 2;
+    for(int i = 0; i < KMAP_SIZE/2; ++i) {
+      int x = i * 2 + base;
+      if(m_HitMap[y][x] == AttackResult::NONDETER 
+          || m_HitMap[y][x] == AttackResult::HIT) {
+        possible_points.emplace_back(std::make_pair(y, x));
+      }
+    }
+  }
+  int idx = (*m_RandGenerator)() % possible_points.size();
+  return possible_points[idx];
+}
+
 Position RandomTraceAttacker::GetAttackPosition() {
   if(m_AttackResult == AttackResult::DESTROY) SetDestroy();
   Position base, ret;
@@ -121,7 +137,7 @@ Position RandomTraceAttacker::GetAttackPosition() {
 
     switch(m_state) {
       case States::STATE_RAND:
-        ret = this->RandomAttacker::GenRandPosition(true);
+        ret = GenRandPosition();
         m_tracePos = ret;
         break;
       case States::STATE_UP:
