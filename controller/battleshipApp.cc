@@ -12,7 +12,7 @@
 #include <unistd.h>
 
 BattleShipApp::BattleShipApp() {
-  m_service = new Service();
+  m_service = nullptr;
   m_defenceMap = nullptr;
   m_attackMap =  nullptr;
   m_state =      nullptr;
@@ -38,6 +38,7 @@ void BattleShipApp::Init() {
   init_pair(2, COLOR_CYAN, COLOR_BLACK);
   init_pair(3, COLOR_YELLOW, COLOR_BLACK);
   init_pair(4, COLOR_RED, COLOR_BLACK);
+  m_service = new Service();
   m_defenceMap = new BattleShipMap(4, 3, "defense");
   m_attackMap = new BattleShipMap(4, 15, "attack");
   m_state = new StatePane(30, 3, 30, 8);
@@ -71,22 +72,24 @@ void BattleShipApp::Play() {
     auto result = m_service->Attack(pos);
     auto destroy = m_service->GetDestroyedShip();
 
-    m_attacker->SetResult(pos, result);
     if(destroy){
+      m_attacker->SetResult(pos, result, destroy->GetSize());
       m_input->Update(pos, result, destroy->GetName());
+
       int idx;
       for(idx = 0; idx < shipes.size(); ++idx) 
         if (shipes[idx] == destroy) break;
       m_state->Update(idx);
     }
     else {
+      m_attacker->SetResult(pos, result);
       m_input->Update(pos, result, "");
     }
 
     m_state->SetTurn(m_service->GetTurn());
     m_attackMap->Update(pos, result);
     Render();
-//    sleep(1);
+    usleep(500000);
   }
   m_input->GameEnd();
   Render();
@@ -95,4 +98,32 @@ void BattleShipApp::Play() {
 void BattleShipApp::End() {
   getch();
   endwin();
+  if(m_service) {
+    delete m_service;
+    m_service = nullptr;
+  }
+  if(m_attacker) {
+    delete m_attacker;
+    m_attacker = nullptr;
+  }
+  if(m_defenser) {
+    delete m_defenser;
+    m_defenser = nullptr;
+  }
+  if(m_attackMap) {
+    delete m_attackMap;
+    m_attackMap = nullptr;
+  }
+  if(m_defenceMap) {
+    delete m_defenceMap;
+    m_defenceMap = nullptr;
+  }
+  if(m_state) {
+    delete m_state;
+    m_state = nullptr;
+  }
+  if(m_input) {
+    delete m_input;
+    m_input = nullptr;
+  }
 }

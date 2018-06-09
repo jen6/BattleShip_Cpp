@@ -11,6 +11,20 @@ RandomTraceAttacker::RandomTraceAttacker()
 
   RandomTraceAttacker::~RandomTraceAttacker() {}
 
+  void RandomTraceAttacker::SetDestroy() {
+    Position direction, pos = m_LastPos;
+    if(m_state == States::STATE_UP) direction = kPos_down;
+    else if(m_state == States::STATE_DOWN) direction = kPos_up;
+    else if(m_state == States::STATE_RIGHT) direction = kPos_left;
+    else if(m_state == States::STATE_LEFT) direction = kPos_right;
+
+    for(int i = 0; i < m_DshipSize; ++i) {
+      int y = pos.first, x = pos.second;
+      m_HitMap[y][x] = AttackResult::DESTROY;
+      pos = pos + direction;
+    }
+  }
+
   void RandomTraceAttacker::HandleState() {
     switch(m_state) {
       case States::STATE_RAND:
@@ -97,6 +111,7 @@ RandomTraceAttacker::RandomTraceAttacker()
   }
 
 Position RandomTraceAttacker::GetAttackPosition() {
+  if(m_AttackResult == AttackResult::DESTROY) SetDestroy();
   Position base, ret;
   for(;;) {
     HandleState();

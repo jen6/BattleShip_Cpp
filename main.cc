@@ -1,8 +1,11 @@
 #include "./controller/battleshipApp.h"
+#include "unistd.h"
 
 int main() {
   BattleShipApp app;
-  app.Init();
-  app.Play();
-  app.End();
+  for(;;){
+    app.Init();
+    app.Play();
+    app.End();
+  }
 }

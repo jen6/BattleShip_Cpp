@@ -16,6 +16,7 @@ class RandomTraceAttacker : public RandomAttacker {
     static const Position kPos_down;
     static const Position kPos_left;
 
+    void SetDestroy();
     void HandleState();
   public:
     RandomTraceAttacker();
