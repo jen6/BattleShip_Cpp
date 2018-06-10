@@ -1,3 +1,6 @@
+//C++ battleship
+//학번 : 20171635, 이름 : 손건
+
 #include "./cruiser.h"
 
 Cruiser::Cruiser() : Ship() {

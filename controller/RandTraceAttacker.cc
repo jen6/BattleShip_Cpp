@@ -1,3 +1,6 @@
+//C++ battleship
+//학번 : 20171635, 이름 : 손건
+
 #include "./RandTraceAttacker.h"
 
 const Position RandomTraceAttacker::kPos_up(-1, 0);
@@ -5,8 +8,8 @@ const Position RandomTraceAttacker::kPos_right(0, 1);
 const Position RandomTraceAttacker::kPos_down(1, 0);
 const Position RandomTraceAttacker::kPos_left(0, -1);
 
-RandomTraceAttacker::RandomTraceAttacker() 
-  : RandomAttacker(), m_state(States::STATE_RAND), 
+RandomTraceAttacker::RandomTraceAttacker(std::vector<int> shipes) 
+  : RandomAttacker(shipes), m_state(States::STATE_RAND), 
   m_traceMode(false), m_tracePos(-1, -1) {}
 
   RandomTraceAttacker::~RandomTraceAttacker() {}

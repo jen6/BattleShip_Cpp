@@ -14,12 +14,15 @@ MODEL_SRCS = $(addprefix $(MODEL_DIR)/,util.cc ship.cc aircraft.cc battleship.cc
 MODEL_OBJS = ${MODEL_SRCS:cc=o}
 
 CONTROL_DIR = ./controller
-CONTROL_SRCS = $(addprefix $(CONTROL_DIR)/,defenser.cc Attacker.cc RandAttacker.cc RandTraceAttacker.cc  battleshipApp.cc)
+CONTROL_SRCS = $(addprefix $(CONTROL_DIR)/,defenser.cc Attacker.cc RandAttacker.cc RandTraceAttacker.cc HeatMapAttacker.cc  battleshipApp.cc)
 CONTROL_OBJS = ${CONTROL_SRCS:cc=o}
+
+TEST_SRCS = ./test/defenser.cc $(addprefix $(CONTROL_DIR)/, Attacker.cc RandAttacker.cc RandTraceAttacker.cc  battleshipApp.cc) 
 
 SRCS = main.cc
 OBJS := ${SRCS:cc=o} 
 PROGS := ${SRCS:.cc=}
+
 
 .PHONY: all
 	all: ${PROGS}
@@ -39,6 +42,8 @@ ${MODEL_OBJS}: ${MODEL_SRCS}
 ${CONTROL_OBJS}: ${CONTROL_SRCS} ${MODEL_OBJS} ${VIEW_OBJS}
 	${CC} ${CFLAGS} -c $< -o $@ 
 
+test_build:
+	${CC} ${CFLAGS} -g -o $@ ${VIEW_SRCS} ${TEST_SRCS} ${MODEL_SRCS} ${SRCS} -lncurses
 
 clean:
 	    rm -f ${PROGS} ${OBJS} ${VIEW_OBJS} ${CONTROL_OBJS} ${MODEL_OBJS}

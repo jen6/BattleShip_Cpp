@@ -1,3 +1,6 @@
+//C++ battleship
+//학번 : 20171635, 이름 : 손건
+
 #pragma once
 
 class Service;
@@ -17,11 +20,13 @@ class BattleShipApp {
     InputPane* m_input;
 
     void Render();
+    void Clear();
   public:
     BattleShipApp();
     ~BattleShipApp();
 
     void Init();
     void Play();
+    void Play(int);
     void End();
 };

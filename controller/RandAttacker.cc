@@ -1,9 +1,12 @@
+//C++ battleship
+//학번 : 20171635, 이름 : 손건
+
 #include "./RandAttacker.h"
 #include <vector>
 #include <chrono>
 #include <random>
 
-RandomAttacker::RandomAttacker() : Attacker() {
+RandomAttacker::RandomAttacker(std::vector<int> shipes) : Attacker(shipes) {
   unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   m_RandGenerator = new std::mt19937_64(seed);
 }

@@ -1,3 +1,6 @@
+//C++ battleship
+//학번 : 20171635, 이름 : 손건
+
 #include "./pane.h"
 Pane::Pane(int x, int y, int width, int height)
   : m_width(width), m_height(height), m_x(x), m_y(y) {

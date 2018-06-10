@@ -1,3 +1,6 @@
+//C++ battleship
+//학번 : 20171635, 이름 : 손건
+
 #pragma once
 #include "./RandAttacker.h"
 #include "./state_def.h"
@@ -20,7 +23,7 @@ class RandomTraceAttacker : public RandomAttacker {
     void HandleState();
     virtual Position GenRandPosition();
   public:
-    RandomTraceAttacker();
+    RandomTraceAttacker(std::vector<int> );
     virtual ~RandomTraceAttacker();
     virtual Position GetAttackPosition();
 };

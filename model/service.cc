@@ -1,3 +1,6 @@
+//C++ battleship
+//학번 : 20171635, 이름 : 손건
+
 #include "./service.h"
 #include "./aircraft.h"
 #include "./battleship.h"

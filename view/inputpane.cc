@@ -1,3 +1,6 @@
+//C++ battleship
+//학번 : 20171635, 이름 : 손건
+
 #include "./inputpane.h"
 
 InputPane::InputPane(int x, int y, int width, int height) 
@@ -49,6 +52,9 @@ void InputPane::Update(const Position& pos, AttackResult res, std::string name="
   }
 }
 
-void InputPane::GameEnd() {
-  m_status = "Game End";
+void InputPane::GameEnd(std::string str) {
+  if(str == "")
+    m_status = "Game End";
+  else
+    m_status = str + " : average turn";
 }
